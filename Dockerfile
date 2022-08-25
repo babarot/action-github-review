@@ -12,9 +12,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN wget -O /tmp/github-review-${VERSION}-linux-amd64.tar.gz \
     https://github.com/b4b4r07/github-review/releases/download/${VERSION}/github-review_linux_x86_64.tar.gz \
     && cd /tmp \
-    && tar -zxvf github-review-${VERSION}_linux_amd64.tar.gz \
+    && tar -zxvf github-review_linux_x86_64.tar.gz \
     && mv github-review /usr/local/bin/ \
-    && rm github-review-${VERSION}_linux_amd64.tar.gz
+    && rm github-review_linux_x86_64.tar.gz
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
