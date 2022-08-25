@@ -12,33 +12,33 @@ This action depends on https://github.com/b4b4r07/github-review
 A whole example is here:
 
 ```yaml
-name: Get changed objects
-
+name: Hotfix Approve
 on:
-  push:
-    branches:
-      - '*'
-      - '!master'
+  pull_request:
+    types:
+      - labeled
 
 jobs:
-  show:
-    runs-on: ubuntu-latest
-    name: Get changed objects
+  build:
+    runs-on: ubuntu-18.04
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Get changed objects
-      uses: b4b4r07/action-github-review@master
-      with:
-        added: 'true'
-        deleted: 'false'
-        modified: 'true'
-      env:
-        LOG: 'trace'
-      id: objects
-    - name: Show the previous result
-      run: |
-        echo ${{ steps.objects.outputs.changed }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get pull request number
+        id: pr
+        run: echo "::set-output name=number::$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')"
+      - name: Create a review with approve when adding 'hotfix' label
+        uses: b4b4r07/action-github-review@main
+        if: github.event.label.name == 'hotfix'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          owner: (b4b4r07)
+          repo: (repo-name)
+          number: ${{ steps.pr.outputs.number }}
+          event: APPROVE
 ```
 
 ## Customizing
