@@ -1,0 +1,22 @@
+name: 'github-review'
+description: 'Create GitHub Review'
+inputs:
+  owner:
+    description: 'GitHub repository owner'
+    required: true
+    default: ''
+  repo:
+    description: 'GitHub repository name'
+    required: true
+    default: ''
+  number:
+    description: 'number of Pull request'
+    required: true
+    default: ''
+  event:
+    description: 'event type of creating GitHub review'
+    required: true
+    default: 'APPROVE'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
